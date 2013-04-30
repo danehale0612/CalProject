@@ -4,7 +4,7 @@ class Calendar
 
     def intialize
         @month = Month.month
-        @year = Month.year
+        @year = Month.yearn
     end
 
     # def month_day_of_week
@@ -41,7 +41,10 @@ class Month
     end
 
     def days_in_a_month
-        numOfDays = {1 => 31, 3 => 31, 5 => 31, 7 => 31, 9 => 31, 11 => 31, 4 => 30, 6 => 30, 8 => 30, 10 => 30, 12 => 30}
+        numOfDays = {1 => 31, 2 => 28, 3 => 31, 5 => 31, 7 => 31, 9 => 31, 11 => 31, 4 => 30, 6 => 30, 8 => 30, 10 => 30, 12 => 30}
+        if @month == 2 && self.leap_year?
+            numOfDays = {2 => 29}
+        end
         numOfDays[@month]
     end
 
