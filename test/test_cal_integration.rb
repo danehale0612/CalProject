@@ -52,6 +52,21 @@ class CalProjectTest < Test::Unit::TestCase
         assert_equal(28, calendar.days_in_a_month)
     end
 
+    def test_12_first_day_of_month
+        calendar = Month.new(6, 1983)
+        assert_equal(4, calendar.month_day_of_week)
+    end
+
+    def test_13_first_day_of_february_in_a_leap_year
+        calendar = Month.new(2, 2014)
+        assert_equal(0, calendar.month_day_of_week)
+    end
+
+    def test_14_first_day_of_January
+        calendar = Month.new(1, 2015)
+        assert_equal(5, calendar.month_day_of_week)
+    end
+
 
 end
 

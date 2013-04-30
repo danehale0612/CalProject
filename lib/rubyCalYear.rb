@@ -7,9 +7,7 @@ class Calendar
         @year = Month.yearn
     end
 
-    # def month_day_of_week
-    #     dayOfTheWeek = (month.daysInAMonth + ((@month +1)26)/10 +  )
-    # end
+    
 
 # Year.year 
 end
@@ -46,6 +44,19 @@ class Month
             numOfDays = {2 => 29}
         end
         numOfDays[@month]
+    end
+
+    def month_day_of_week
+        zel_month = @month
+        zel_year = @year
+        if zel_month == 2 
+            zel_month = 14 
+            zel_year = @year - 1
+        elsif zel_month == 1
+            zel_month = 13
+            zel_year = @year - 1
+        end
+        dayOfTheWeek = (1 + ((zel_month +1)*26)/10 + zel_year + (zel_year/4)+ 6*(zel_year/100) + (zel_year/400)) % 7
     end
 
     
