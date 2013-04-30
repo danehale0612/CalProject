@@ -67,6 +67,21 @@ class CalProjectTest < Test::Unit::TestCase
         assert_equal(5, calendar.month_day_of_week)
     end
 
+    def test_15_print_month_header
+        calendar = Month.new(8, 2013)
+        assert_equal("    August 2013"     , calendar.header)
+    end
+
+    def test_16_print_days_of_the_week_with_month_header
+        calendar = Month.new(8, 2013)
+        assert_equal("    August 2013\nSu Mo Tu We Th Fr Sa\n", calendar.days_of_the_week)
+    end
+
+    def test_17_print_start_of_month
+        calendar = Month.new(12, 2012)
+        assert_equal("   December 2012\nSu Mo Tu We Th Fr Sa\n                   1", calendar.start_of_month)
+    end
+
 
 end
 

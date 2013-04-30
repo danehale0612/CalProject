@@ -59,6 +59,32 @@ class Month
         dayOfTheWeek = (1 + ((zel_month +1)*26)/10 + zel_year + (zel_year/4)+ 6*(zel_year/100) + (zel_year/400)) % 7
     end
 
+    def header 
+        "#{string_month} #{@year}".center(20).rstrip
+    end
+
+    def days_of_the_week
+        "#{header}\nSu Mo Tu We Th Fr Sa\n"
+    end
+
+    def start_of_month
+        if month_day_of_week == 0
+            month_day_of_week = 7
+        end
+        beginWhiteSpace = ""
+        i = 1
+        until i == month_day_of_week
+            beginWhiteSpace << "   "
+            i += 1
+        end
+        beginWhiteSpace << " 1" 
+        "#{days_of_the_week}#{beginWhiteSpace}"
+    end
+
+
+
+
+
     
 
 
