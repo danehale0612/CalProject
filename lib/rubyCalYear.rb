@@ -1,26 +1,13 @@
-class Calendar
-    attr_accessor = :year
-    attr_accessor = :month
-
-    def intialize
-        @month = Month.month
-        @year = Month.yearn
-    end
-
-    
-
-# Year.year 
-end
 
 class Month
 
-    attr_accessor = :month 
-    attr_accessor = :year
+    attr_accessor :month 
+    attr_accessor :year
 
 
     def initialize(month, year)
-        @month = month
-        @year = year
+        @month = month.to_i
+        @year = year.to_i
     end
 
     def leap_year?
@@ -39,11 +26,11 @@ class Month
     end
 
     def days_in_a_month
-        numOfDays = {1 => 31, 2 => 28, 3 => 31, 5 => 31, 7 => 31, 9 => 31, 11 => 31, 4 => 30, 6 => 30, 8 => 30, 10 => 30, 12 => 30}
-        if @month == 2 && self.leap_year?
+        numOfDays = {1 => 31, 2 => 28, 3 => 31, 5 => 31, 7 => 31, 9 => 30, 11 => 30, 4 => 30, 6 => 30, 8 => 31, 10 => 31, 12 => 31}
+        if @month.to_i == 2 && leap_year?
             numOfDays = {2 => 29}
         end
-        numOfDays[@month]
+        numOfDays[@month].to_i
     end
 
     def month_day_of_week
@@ -57,6 +44,10 @@ class Month
             zel_year = @year - 1
         end
         dayOfTheWeek = (1 + ((zel_month +1)*26)/10 + zel_year + (zel_year/4)+ 6*(zel_year/100) + (zel_year/400)) % 7
+        if dayOfTheWeek == 0
+            dayOfTheWeek = 7
+        end
+        dayOfTheWeek
     end
 
     def header 
@@ -67,25 +58,41 @@ class Month
         "#{header}\nSu Mo Tu We Th Fr Sa\n"
     end
 
-    def start_of_month
-        if month_day_of_week == 0
-            month_day_of_week = 7
-        end
-        beginWhiteSpace = ""
+    def format_days_of_month
+        beginWhiteSpace = []
         i = 1
         until i == month_day_of_week
             beginWhiteSpace << "   "
             i += 1
         end
-        beginWhiteSpace << " 1" 
-        "#{days_of_the_week}#{beginWhiteSpace}"
+        days_array = beginWhiteSpace
+        allDays = (1..days_in_a_month).to_a
+        allDays.collect! do |days|
+            if days < 10 && days != 1
+                "  " + days.to_s
+            else
+             " " + days.to_s
+            end
+        end
+        days_array += allDays
+        days_array
+        calendar = []
+        z = 0
+        while z < 6
+            newdays = days_array.shift(7)
+            newdays = newdays.join
+            newdays.slice!(0) unless z == 0
+           calendar <<  newdays
+           calendar << "\n"
+
+           z += 1
+       end
+       calendar = calendar.join
+       calendar
+   end
+
+    def print_month_calendar
+       "#{days_of_the_week}#{format_days_of_month}"
     end
-
-
-
-
-
-    
-
 
 end

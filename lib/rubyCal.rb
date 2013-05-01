@@ -1,7 +1,10 @@
+require_relative 'rubyCalYear'
+
 month = ARGV[0]
 year = ARGV[1]
          
-puts `cal #{month} #{year}`
+cal = Month.new(month, year)
+puts cal.print_month_calendar
 
 
 

@@ -1,7 +1,12 @@
 require 'test/unit'
 require 'rubyCalYear'
 
+
 class CalProjectTest < Test::Unit::TestCase
+
+    def test_0_integration_test
+        assert_equal(`cal 12 2012`, `ruby lib/rubyCal.rb 12 2012`)
+    end
 
     def test_1_output_cal
         assert_equal(`cal 2 2013`, `ruby lib/rubyCal.rb 2 2013`)
@@ -38,8 +43,8 @@ class CalProjectTest < Test::Unit::TestCase
     end
 
     def test_8_num_of_days_in_month
-        calendar = Month.new(4, 2012)
-        assert_equal(30, calendar.days_in_a_month)
+        calendar = Month.new(1, 2012)
+        assert_equal(31, calendar.days_in_a_month)
     end
 
     def test_9_num_of_days_in_february_in_a_leap_year
@@ -53,13 +58,13 @@ class CalProjectTest < Test::Unit::TestCase
     end
 
     def test_12_first_day_of_month
-        calendar = Month.new(6, 1983)
-        assert_equal(4, calendar.month_day_of_week)
+        calendar = Month.new(7, 2012)
+        assert_equal(1, calendar.month_day_of_week)
     end
 
     def test_13_first_day_of_february_in_a_leap_year
         calendar = Month.new(2, 2014)
-        assert_equal(0, calendar.month_day_of_week)
+        assert_equal(7, calendar.month_day_of_week)
     end
 
     def test_14_first_day_of_January
@@ -69,7 +74,7 @@ class CalProjectTest < Test::Unit::TestCase
 
     def test_15_print_month_header
         calendar = Month.new(8, 2013)
-        assert_equal("    August 2013"     , calendar.header)
+        assert_equal("    August 2013", calendar.header)
     end
 
     def test_16_print_days_of_the_week_with_month_header
@@ -77,9 +82,14 @@ class CalProjectTest < Test::Unit::TestCase
         assert_equal("    August 2013\nSu Mo Tu We Th Fr Sa\n", calendar.days_of_the_week)
     end
 
-    def test_17_print_start_of_month
-        calendar = Month.new(12, 2012)
-        assert_equal("   December 2012\nSu Mo Tu We Th Fr Sa\n                   1", calendar.start_of_month)
+    def test_17_format_days_of_month
+        calendar = Month.new(2, 2012)
+        assert_equal("          1  2  3  4\n 5  6  7  8  9 10 11\n12 13 14 15 16 17 18\n19 20 21 22 23 24 25\n26 27 28 29\n\n", calendar.format_days_of_month)
+    end
+
+    def test_18_print_cal
+        calendar = Month.new(2, 2012)
+        assert_equal("   February 2012\nSu Mo Tu We Th Fr Sa\n          1  2  3  4\n 5  6  7  8  9 10 11\n12 13 14 15 16 17 18\n19 20 21 22 23 24 25\n26 27 28 29\n\n", calendar.print_month_calendar)
     end
 
 
