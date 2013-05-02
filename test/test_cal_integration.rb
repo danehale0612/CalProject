@@ -4,12 +4,28 @@ require 'rubyCalYear'
 
 class CalProjectTest < Test::Unit::TestCase
 
-    def test_0_integration_test
+    def test_0_leap_year
+        assert_equal(`cal 2 2004`, `ruby lib/rubyCal.rb 2 2004`)
+    end
+
+    def test_1a_non_leap_year
+        assert_equal(`cal 2 2013`, `ruby lib/rubyCal.rb 2 2013`)
+    end
+
+    def test_1b_a_six_week_month
         assert_equal(`cal 12 2012`, `ruby lib/rubyCal.rb 12 2012`)
     end
 
-    def test_1_output_cal
-        assert_equal(`cal 2 2013`, `ruby lib/rubyCal.rb 2 2013`)
+    def test_1c_a_century_leap_year
+        assert_equal(`cal 5 2000`, `ruby lib/rubyCal.rb 5 2000`)
+    end
+
+    def test_1d_a_century_non_leap_year
+        assert_equal(`cal 5 2100`, `ruby lib/rubyCal.rb 5 2100`)
+    end
+
+    def test_1e_a_non_century_non_leap_year
+        assert_equal(`cal 12 2003`, `ruby lib/rubyCal.rb 12 2100`)
     end
 
     def test_2_its_a_century_leap_year
