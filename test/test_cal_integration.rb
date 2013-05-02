@@ -25,7 +25,7 @@ class CalProjectTest < Test::Unit::TestCase
     end
 
     def test_1e_a_non_century_non_leap_year
-        assert_equal(`cal 12 2003`, `ruby lib/rubyCal.rb 12 2100`)
+        assert_equal(`cal 12 2003`, `ruby lib/rubyCal.rb 12 2003`)
     end
 
     def test_2_its_a_century_leap_year
@@ -73,7 +73,7 @@ class CalProjectTest < Test::Unit::TestCase
         assert_equal(28, calendar.days_in_a_month)
     end
 
-    def test_12_first_day_of_month
+    def test_12_first_weekday_of_month
         calendar = Month.new(7, 2012)
         assert_equal(1, calendar.month_day_of_week)
     end

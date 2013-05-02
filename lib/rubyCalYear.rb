@@ -4,7 +4,6 @@ class Month
     attr_accessor :month 
     attr_accessor :year
 
-
     def initialize(month, year)
         @month = month.to_i
         @year = year.to_i
@@ -12,11 +11,11 @@ class Month
 
     def leap_year?
         if @year % 100 == 0 && @year % 400 == 0
-             return true
+             true
         elsif @year % 4 == 0 && @year % 100 != 0
-           return true
+           true
        else
-            return false
+            false
         end
     end
 
@@ -27,9 +26,7 @@ class Month
 
     def days_in_a_month
         numOfDays = {1 => 31, 2 => 28, 3 => 31, 5 => 31, 7 => 31, 9 => 30, 11 => 30, 4 => 30, 6 => 30, 8 => 31, 10 => 31, 12 => 31}
-        if @month.to_i == 2 && leap_year?
-            numOfDays = {2 => 29}
-        end
+        numOfDays = {2 => 29} if @month.to_i == 2 && leap_year?
         numOfDays[@month].to_i
     end
 
@@ -44,9 +41,7 @@ class Month
             zel_year = @year - 1
         end
         dayOfTheWeek = (1 + ((zel_month +1)*26)/10 + zel_year + (zel_year/4)+ 6*(zel_year/100) + (zel_year/400)) % 7
-        if dayOfTheWeek == 0
-            dayOfTheWeek = 7
-        end
+        dayOfTheWeek = 7 if dayOfTheWeek == 0
         dayOfTheWeek
     end
 
@@ -75,7 +70,6 @@ class Month
             end
         end
         days_array += allDays
-        days_array
         calendar = []
         z = 0
         while z < 6
@@ -84,11 +78,9 @@ class Month
             newdays.slice!(0) unless z == 0
            calendar <<  newdays
            calendar << "\n"
-
            z += 1
        end
        calendar = calendar.join
-       calendar
    end
 
     def print_month_calendar
