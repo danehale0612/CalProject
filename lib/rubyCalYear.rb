@@ -1,90 +1,119 @@
+require_relative 'rubyCalMonth'
 
-class Month
+class Year
 
-    attr_accessor :month 
     attr_accessor :year
 
-    def initialize(month, year)
-        @month = month.to_i
+    def initialize(year)
         @year = year.to_i
     end
 
-    def leap_year?
-        if @year % 100 == 0 && @year % 400 == 0
-             true
-        elsif @year % 4 == 0 && @year % 100 != 0
-           true
-       else
-            false
-        end
+    def year_header
+        year_header = "#{@year}".center(63).rstrip + "\n" + "\n"
+        year_header
     end
 
-    def string_month
-        monthToString = {1 => "January", 2 => "February", 3 => "March", 4 => "April", 5 => "May", 6 => "June", 7 => "July", 8 => "August", 9 => "September", 10 => "October", 11 => "November", 12 => "December"}
-        monthToString[@month]
-    end
-
-    def days_in_a_month
-        numOfDays = {1 => 31, 2 => 28, 3 => 31, 5 => 31, 7 => 31, 9 => 30, 11 => 30, 4 => 30, 6 => 30, 8 => 31, 10 => 31, 12 => 31}
-        numOfDays = {2 => 29} if @month.to_i == 2 && leap_year?
-        numOfDays[@month].to_i
-    end
-
-    def month_day_of_week
-        zel_month = @month
-        zel_year = @year
-        if zel_month == 2 
-            zel_month = 14 
-            zel_year = @year - 1
-        elsif zel_month == 1
-            zel_month = 13
-            zel_year = @year - 1
-        end
-        dayOfTheWeek = (1 + ((zel_month +1)*26)/10 + zel_year + (zel_year/4)+ 6*(zel_year/100) + (zel_year/400)) % 7
-        dayOfTheWeek = 7 if dayOfTheWeek == 0
-        dayOfTheWeek
-    end
-
-    def header 
-        "#{string_month} #{@year}".center(20).rstrip
-    end
-
-    def days_of_the_week
-        "#{header}\nSu Mo Tu We Th Fr Sa\n"
-    end
-
-    def format_days_of_month
-        beginWhiteSpace = []
-        i = 1
-        until i == month_day_of_week
-            beginWhiteSpace << "   "
-            i += 1
-        end
-        days_array = beginWhiteSpace
-        allDays = (1..days_in_a_month).to_a
-        allDays.collect! do |days|
-            if days < 10 && days != 1
-                "  " + days.to_s
-            else
-             " " + days.to_s
+    def gather_month_names
+        month_names = []
+        (1..12).each do |month|
+            calendar = Month.new(month, @year)
+            month_name_formated = calendar.string_month.center(20)
+            month_names << month_name_formated
             end
-        end
-        days_array += allDays
-        calendar = []
-        z = 0
-        while z < 6
-            newdays = days_array.shift(7)
-            newdays = newdays.join
-            newdays.slice!(0) unless z == 0
-           calendar <<  newdays
-           calendar << "\n"
-           z += 1
-       end
-       calendar = calendar.join
-   end
-
-    def print_month_calendar
-       "#{days_of_the_week}#{format_days_of_month}"
+        month_names
     end
+
+    def print_month_names(a, b, c)
+        months = gather_month_names
+        print_names = []
+        
+        print_names << months[a]
+        print_names << months[b]
+        print_names << months[c]
+          
+        print_names = print_names.join("  ")
+        print_names = print_names.rstrip
+        print_names = print_names + "\n"
+
+        print_names
+    end
+
+    def print_label_weekdays
+        string_weekdays = "Su Mo Tu We Th Fr Sa"
+        days_of_week = []
+        j = 3
+        j.times do
+            days_of_week << string_weekdays
+        end
+        days_of_week = days_of_week.join("  ")
+        days_of_week = days_of_week + "\n"
+        days_of_week
+    end
+
+    def print_year_month_header
+        year_header + print_month_names + print_label_weekdays
+    end
+
+    def gather_weeks
+        calendar_days = []
+        (1..12).each do |month|
+            calendar = Month.new(month, @year)
+            calendar = calendar.final_days_format
+            calendar_days << calendar.gsub!(/\n/, '')
+        end
+        calendar_days
+    end
+
+    def whitespace(week)
+        i = week.length
+        whitespace = []
+        num = 20 - i
+        num.times do
+            whitespace << " "
+        end
+        whitespace
+    end
+
+    def print_weeks(i, j, k)
+        days = gather_weeks
+        first_weeks = []
+        month1 = days[i].split("")
+        month2 = days[j].split("")
+        month3 = days[k].split("")
+        6.times do
+            week1 = month1.shift(20)
+            week2 = month2.shift(20)
+            week3 = month3.shift(20)
+            first_weeks << week1 + whitespace(week1) << "  "
+            first_weeks << week2 + whitespace(week2) << "  "
+            first_weeks << week3
+            first_weeks << whitespace(week1) unless week3.length < 20
+            first_weeks << "\n"
+        end
+        first_weeks.join
+        
+    end
+
+    def print_months
+        a = 0
+        b = 1
+        c = 2
+        final_year = []
+        4.times do
+            final_year << year_header if a == 0
+            final_year << print_month_names(a,b,c)
+            final_year << print_label_weekdays
+            final_year << print_weeks(a,b,c)
+            a += 3
+            b += 3
+            c += 3
+        end
+        final_year.join
+    end
+
+    def print_everything
+        print_months
+    end
+
 
 end
