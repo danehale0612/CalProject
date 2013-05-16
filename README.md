@@ -1,3 +1,18 @@
+Overview:  To learn Ruby and Test Driven Development, I was tasked to create a command line program that would generate what the `cal month/year` or `cal year` would generate.  While generating this program I was suppose to create tests to lead me to my final development.
+
+Project status:
+
+-Month class is created and can generate what `cal month/year` can
+-Tests are developed and passed for Month class
+-Year class is created and can generate what `cal year` can
+-Tests are still in development for this process
+
+
+
+
+
+
+
 unit test for my Cal project:
 
 1. its_a_century_leap_year
